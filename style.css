@@ -32,3 +32,6 @@ li a{
   text-decoration: none;
   color: rgb(2, 71, 19);
 }
+li button{
+  background-color: rgb(148, 8, 8);
+}
