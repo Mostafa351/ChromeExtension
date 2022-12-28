@@ -1,16 +1,29 @@
 
-const myUrls = [];
+let myUrls = [];
 const inputEl = document.getElementById("input-el");
 const inputBTN = document.getElementById("input-btn");
 const unorderdEl = document.getElementById("unorderd-el");
 const showEl = document.getElementById("show-btn");
 
 
+
+
 inputBTN.addEventListener("click", (event)=>{
-  if (inputEl.value) myUrls.push(inputEl.value);
+  myUrls = JSON.parse(localStorage.getItem("urls"))?? [];
+
+  if(myUrls){
+    if (inputEl.value) myUrls.push(inputEl.value);
+  }else{
+    console.log("c")
+  }
+  
+
+  localStorage.setItem("urls", JSON.stringify(myUrls));
   inputEl.value="";
 })
-showEl.addEventListener("click", ()=>{
+showEl.addEventListener("click", ()=>{ 
+  // to be refactored
+  myUrls = JSON.parse(localStorage.getItem("urls"))?? [] ;
   unorderdEl.innerHTML = `` ;
   let listItems = "";
   for (let i = 0; i < myUrls.length; i++) {
