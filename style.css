@@ -35,3 +35,6 @@ li a{
 li button{
   background-color: rgb(148, 8, 8);
 }
+#svTab-btn{
+  margin-bottom: 5px;
+}

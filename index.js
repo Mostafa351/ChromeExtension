@@ -4,12 +4,26 @@ const inputBTN = document.getElementById("input-btn");
 const unorderdEl = document.getElementById("unorderd-el");
 const showEl = document.getElementById("show-btn");
 const dAllEl = document.getElementById("dall-btn");
+const svTabEl = document.getElementById("svTab-btn");
 
-let localData =JSON.parse(localStorage.getItem("urls"))?? [];
-//let localData =JSON.parse(localStorage.getItem("urls")) == null ?  []:JSON.parse(localStorage.getItem("urls"));
+//let localData =JSON.parse(localStorage.getItem("urls"))?? [];
+let localData =JSON.parse(localStorage.getItem("urls")) != null ? JSON.parse(localStorage.getItem("urls")) : [];
+
+
+svTabEl.addEventListener("click",()=>{
+  myUrls = localData;
+  chrome.tabs.query({ active: true, lastFocusedWindow: true },async (tabs) => {
+    const url = await tabs[0].url;
+    myUrls.push(url);
+    localStorage.setItem("urls", JSON.stringify(myUrls));
+    renderList();
+  });
+})
+
+
+
 inputBTN.addEventListener("click", (event)=>{
   myUrls = localData;
-
   if(myUrls){
     if (inputEl.value) myUrls.push(inputEl.value);
   }else{
@@ -25,6 +39,7 @@ showEl.addEventListener("click", ()=>{
 })
 dAllEl.addEventListener("click",()=>{
   alert("Delete All");
+  localData = [];
   myUrls = [];
   localStorage.setItem("urls", JSON.stringify(myUrls));
   renderList();
@@ -39,9 +54,8 @@ function renderList(){
     listItems += `
                   <li>
                     <a href="${myUrls[i]}" target="_blank">
-                        ${myUrls[i]}
+                       <p>${myUrls[i]} </p>
                     </a>
-                    <button id="delete-btn" onclick="deleteItem(${i})">Delete</button>
                   </li>
                 `;
   }
@@ -52,3 +66,6 @@ function deleteItem(id){
   localStorage.setItem("urls", JSON.stringify(myUrls));
   renderList();
 }
+
+
+
